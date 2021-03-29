@@ -1,0 +1,6 @@
+grammar Test
+    ;
+
+program
+    : EOF
+    ;
