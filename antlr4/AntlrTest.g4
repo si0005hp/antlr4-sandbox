@@ -2,18 +2,53 @@ grammar AntlrTest
     ;
 
 program
-    : helloStatement* EOF
+    : statement* EOF
     ;
 
-helloStatement
-    : 'hello' primary
+statement
+    : expression
+    ;
+
+expression
+    : assignment
+    ;
+
+assignment
+    : (call '.')? IDENTIFIER '=' assignment
+    | term
+    ;
+
+term
+    : factor (('+' | '-') factor)*
+    ;
+
+factor
+    : unary (('*' | '/') unary)*
+    ;
+
+unary
+    : ('!' | '-') unary
+    | call
+    ;
+
+call
+    : primary ('(' arguments? ')' | '.' IDENTIFIER)*
     ;
 
 primary
-    : INT
-    | FLOAT
+    : number
     | STRING
     | IDENTIFIER
+    | '(' expression ')'
+    ;
+
+number
+    : INT
+    | FLOAT
+    ;
+
+arguments
+    : expression (',' expression)*
     ;
 
 WS
